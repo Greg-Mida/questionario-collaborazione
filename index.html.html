@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stili di Collaborazione</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Fraunces:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<style>
+:root {
+  --pilot: #D85A30;
+  --architect: #1D9E75;
+  --adapter: #BA7517;
+  --observer: #6B6B65;
+  --connector: #7F77DD;
+  --bg: #FAFAF7;
+  --card: #FFFFFF;
+  --text: #1D1D1B;
+  --text-secondary: #6B6B65;
+  --border: #E8E6E0;
+  --accent: #745EAE;
+  --accent-secondary: #ED7D31;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  min-height: 100vh;
+}
+
+/* ─── INTRO PAGE ─── */
+.page { display: none; }
+.page.active { display: block; animation: fadeIn 0.4s ease; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.intro-badge {
+  display: inline-block;
+  background: var(--accent);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  margin-top: 40px;
+}
+
+h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+.intro-subtitle {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.intro-axes {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+.intro-axes h3 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.axis-item {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.axis-item:last-child { margin-bottom: 0; }
+
+.axis-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.axis-item p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+.axis-item strong { font-weight: 600; }
+
+.intro-note {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin-bottom: 40px;
+  padding: 16px 20px;
+  border-left: 3px solid var(--border);
+}
+
+.btn-primary {
+  display: block;
+  width: 100%;
+  padding: 16px 32px;
+  background: var(--text);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ─── PROGRESS BAR ─── */
+.progress-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 32px;
+  margin-top: 20px;
+}
+
+.progress-step {
+  flex: 1;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--border);
+  transition: background 0.4s;
+}
+
+.progress-step.done { background: var(--accent); }
+.progress-step.current { background: var(--accent); opacity: 0.5; }
+
+.step-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+/* ─── QUESTIONS ─── */
+.question-block {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  transition: border-color 0.3s;
+}
+
+.question-block.answered { border-color: var(--accent); }
+
+.question-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.question-text {
+  font-size: 15px;
+  line-height: 1.55;
+  margin-bottom: 16px;
+  font-weight: 400;
+}
+
+.likert-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.likert-btn {
+  flex: 1;
+  padding: 10px 4px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.likert-btn:hover { border-color: var(--accent); background: #f0faf6; }
+
+.likert-btn.selected {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
+.likert-btn .likert-value {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.likert-btn .likert-label {
+  display: block;
+  font-size: 10px;
+  line-height: 1.3;
+  margin-top: 2px;
+  opacity: 0.7;
+}
+
+.likert-btn.selected .likert-label { opacity: 1; }
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-secondary {
+  flex: 1;
+  padding: 14px 24px;
+  background: white;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover { border-color: var(--text-secondary); }
+
+.nav-buttons .btn-primary { flex: 2; }
+
+.unanswered-warning {
+  display: none;
+  text-align: center;
+  color: #c0392b;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+/* ─── RESULTS ─── */
+.results-header {
+  text-align: center;
+  margin-bottom: 32px;
+  margin-top: 32px;
+}
+
+.results-header h1 { font-size: 32px; margin-bottom: 8px; }
+.results-header p { color: var(--text-secondary); font-size: 16px; }
+
+.profile-card {
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 24px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+}
+
+.profile-card .profile-en {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.profile-card h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.profile-card .profile-tagline {
+  font-size: 16px;
+  opacity: 0.85;
+  line-height: 1.5;
+}
+
+.chart-container {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.chart-container h3 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+/* ─── BAR CHART ─── */
+.bars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bar-label {
+  width: 110px;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.bar-track {
+  flex: 1;
+  height: 28px;
+  background: var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 8px;
+  transition: width 0.8s ease;
+  min-width: 20px;
+}
+
+.bar-top {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 480px) {
+  .bar-label { width: 90px; font-size: 12px; }
+  .bar-track { height: 24px; }
+}
+
+.detail-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.detail-section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-section p, .detail-section li {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-secondary);
+}
+
+.detail-section ul {
+  padding-left: 20px;
+}
+
+.detail-section li { margin-bottom: 6px; }
+
+.btn-restart {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: white;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 24px;
+  margin-bottom: 40px;
+  transition: all 0.2s;
+}
+
+.btn-restart:hover { border-color: var(--text-secondary); }
+
+/* ─── PDF DOWNLOAD ─── */
+.btn-download {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 24px;
+  transition: all 0.2s;
+}
+
+.btn-download:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(116,94,174,0.3); }
+.btn-download:disabled { opacity: 0.5; cursor: wait; transform: none; box-shadow: none; }
+
+.pdf-capture { background: var(--bg); }
+
+/* ─── MINI PROFILE CARD ─── */
+.profile-card-mini {
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-mini-en {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.profile-mini-it {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ─── CHART SVG ─── */
+.chart-svg { width: 100%; max-width: 500px; margin: 0 auto; display: block; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 480px) {
+  h1 { font-size: 28px; }
+  .likert-btn .likert-label { font-size: 9px; }
+  .likert-btn { padding: 8px 2px; }
+}
+
+/* ─── SENDING STATE ─── */
+.sending-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(250,250,247,0.92);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sending-overlay.active { display: flex; }
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.sending-text { font-size: 15px; color: var(--text-secondary); }
+
+/* ─── LOGO FOOTER ─── */
+.logo-footer {
+  text-align: right;
+  padding: 32px 0 16px;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+.logo-footer:hover { opacity: 0.5; }
+.logo-footer img { height: 40px; width: auto; }
+</style>
+</head>
+<body>
+
+<div class="sending-overlay" id="sendingOverlay">
+  <div class="spinner"></div>
+  <div class="sending-text">Calcolo in corso...</div>
+</div>
+
+<div class="container">
+
+  <!-- ═══ PAGE: INTRO ═══ -->
+  <div class="page active" id="page-intro">
+    <div class="intro-badge">Pre-work</div>
+    <h1>Scopri il tuo stile di collaborazione</h1>
+    <p class="intro-subtitle">Ognuno di noi collabora in modo diverso. Questo questionario ti aiuterà a scoprire il <strong>tuo approccio naturale al lavoro di squadra.</strong><br><br>Non esistono risposte giuste o sbagliate: rispondi pensando a come ti comporti effettivamente nel tuo contesto lavorativo.</p>
+
+    <div class="intro-note">20 domande · circa 5 minuti · risultato immediato</div>
+
+    <button class="btn-primary" onclick="startQuiz()">Inizia il questionario</button>
+  </div>
+
+  <!-- ═══ PAGES: QUESTIONS (generated by JS) ═══ -->
+  <div class="page" id="page-q1"></div>
+  <div class="page" id="page-q2"></div>
+  <div class="page" id="page-q3"></div>
+  <div class="page" id="page-q4"></div>
+
+  <!-- ═══ PAGE: RESULTS ═══ -->
+  <div class="page" id="page-results"></div>
+
+  <div class="logo-footer">
+    <img src="data:image/png;base64,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jaZddtllzaXLLrsMQIyx0+k88MADU5Onfnn/+98P4Mwzz/zXAANYtGhR8+fWrVvPPvtsAG94wxsk1XU9Nb8B/+lPfxrA0qVLSTZzqqqaWuJnHTZ9zQewc+fOqqrMrCiKG264YcOGDZs3b77xxhuLoggh9Pv9HTt2TE0+rNGIrt/vL1y48N3vfjfJe++9t9vtxhinntbs1RtuuAHAhz/84aOOOupLX/rSI488cuCcI9wBsGvXLklLly696KKLut3u3/zN31x77bVjY2MXXXTRkiVL3H3nzp0/H+DGzplZznl4eFhSt9tNKR24Ima2bt26O+6446yzznr961//yle+cmJi4pZbbiGZcz7CgBsMe/fuBbBw4cL3ve99IYSPf/zjV199dYzx/e9//9y5cxsV+PkK8yTb7XajKbfeeivJxYsXDwwM5JynTDqAm266qa7rTZs2nXvuuc1e+OQnP1nX9fSd0+FJeMeOHWZWluWFF1548cUXj46Ojo6Orlq16oILLijL0sx27do15XUOBMNnbHlodHXt2rX33HPPFVdccdNNN0l6+9vfHkKYEl2MsdvtfvaznyU5ODj4yCOPmFmn07nvvvvuvvvuA2ceSQlv3rzZ3QcGBgB84AMfaMBcddVVAGbMmOHujz766KEq3ViUxuQc+szGLG3btm3lypUveMELrrnmmpTSe97znksvvTTnXBRFMwfA7bff/sADD6xYsWL16tXr169fs2bNa1/72pTSddddd6QL4hJJScPDw2ecccbKlSslnX/++W95y1skveQlL5F01llnPfjgg7NmzTp0A88aHp43b96iRYsOWovmmTNmzFixYgVJuYcYTzvttEsuuWTVqlWSGkVtrDSAe++9d8WKFe9617uGh4frui6K4rcv/e377rtv27Ztu3fvHhkZOWJM68lKFEjjJJdtAgA2CswQCDDnDIFmZlPU0ifGx/eNjZVlOWvWLDN7KvH0KZU+cBxIsxoFIZlSLsuCpGen0d2N9P2cpCiK6TQKTZdauqvJrTpEOeGTRQcWoguiAgVRrmykWQAoyJXJ2ADylB0IMfCAdSQpOemECZZybQgwmYWGrE9J2IzuLpAGy3AhmQJgnCydTwfwdNuW1IiWcposkLmylJvqByBKJJ0AEURmuCRliFRS7im7JzOGGHSASjcCBykk5JycjBYYSAl5yqSFEEII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" alt="MIDA">
+  </div>
+
+</div>
+
+<script>
+// ─── CONFIG ───
+// IMPORTANT: Replace this URL with your Google Apps Script Web App URL
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOSivnLLSbm6tL8S3IcJu7ZJ94MaHUTFCVaoax88XTwxC1xvh6GFs84vQdIbFjwSDlEA/exec";
+
+// ─── QUESTIONS ───
+const questions = [
+  // Mixed order: 1 per profile, cycling through
+  { id: 1,  text: "Quando c'è un compito urgente, preferisco occuparmene in prima persona piuttosto che delegare o coinvolgere altri.", profile: "pilot" },
+  { id: 5,  text: "Quando affronto un problema complesso, cerco attivamente il contributo di colleghi e colleghe con competenze diverse dalle mie.", profile: "architect" },
+  { id: 9,  text: "Di fronte a un disaccordo nel team, cerco una soluzione pratica che vada bene a tutti, anche se non è perfetta.", profile: "adapter" },
+  { id: 13, text: "Prima di esprimere la mia opinione in un gruppo, preferisco ascoltare e osservare cosa pensano le altre persone.", profile: "observer" },
+  { id: 17, text: "Per me è importante che tutti i membri del team si sentano coinvolti e a proprio agio prima di procedere.", profile: "connector" },
+
+  { id: 2,  text: "In un progetto di gruppo, mi trovo più a mio agio quando ho la responsabilità chiara di una parte specifica.", profile: "pilot" },
+  { id: 6,  text: "Mi capita spesso di proporre modi nuovi di lavorare insieme per ottenere risultati migliori.", profile: "architect" },
+  { id: 10, text: "Adatto il mio modo di lavorare in base alle persone con cui collaboro e alla situazione.", profile: "adapter" },
+  { id: 14, text: "In situazioni di tensione nel team, tendo a fare un passo indietro e aspettare che le acque si calmino.", profile: "observer" },
+  { id: 18, text: "Investo tempo nel costruire e mantenere buoni rapporti con chi lavora con me, anche al di fuori dei progetti.", profile: "connector" },
+
+  { id: 3,  text: "Quando ho un obiettivo da raggiungere, mi concentro su come arrivarci nel modo più efficace, anche se questo significa lavorare in autonomia.", profile: "pilot" },
+  { id: 7,  text: "Dedico tempo a capire gli obiettivi delle altre persone per trovare soluzioni che funzionino per tutti.", profile: "architect" },
+  { id: 11, text: "Preferisco trovare un compromesso rapido piuttosto che discutere a lungo per la soluzione ideale.", profile: "adapter" },
+  { id: 15, text: "Mi capita di avere idee che non condivido subito, preferendo aspettare il momento giusto.", profile: "observer" },
+  { id: 19, text: "Quando qualcuno nel team è in difficoltà, la mia prima reazione è offrire supporto, anche se rallenta il mio lavoro.", profile: "connector" },
+
+  { id: 4,  text: "Mi sento più produttivo/a quando posso organizzare il lavoro a modo mio, senza dover allineare continuamente le altre persone.", profile: "pilot" },
+  { id: 8,  text: "Credo che i risultati migliori nascano quando si mettono insieme prospettive diverse, anche se richiede più tempo.", profile: "architect" },
+  { id: 12, text: "Quando un progetto si blocca, mi viene naturale proporre una strada intermedia per far ripartire le cose.", profile: "adapter" },
+  { id: 16, text: "Preferisco riflettere a fondo su una questione prima di intervenire, anche se questo significa restare in silenzio più a lungo.", profile: "observer" },
+  { id: 20, text: "Prima di affrontare un tema di lavoro, mi viene spontaneo dedicare un momento a capire come stanno le persone intorno a me.", profile: "connector" },
+];
+
+const likertLabels = ["Mai", "Raramente", "A volte", "Spesso", "Sempre"];
+
+const profiles = {
+  pilot: {
+    itName: "Pilota", enName: "The Pilot", color: "#D85A30",
+    tagline: "Orientamento al risultato, efficacia e autonomia. Sai dove andare e ci arrivi.",
+    strengths: [
+      "Velocità ed efficacia nell'esecuzione",
+      "Capacità di prendere decisioni rapide",
+      "Affidabilità: quando ti viene assegnato un compito, si sa che verrà portato a termine",
+      "Chiarezza sugli obiettivi e focus sul risultato"
+    ],
+    growth: [
+      "Coinvolgere le altre persone prima di partire in autonomia",
+      "Condividere il 'come' oltre che il 'cosa': rendere visibile il tuo processo",
+      "Riconoscere che a volte il percorso collettivo porta a risultati migliori di quello individuale"
+    ],
+    tips: "Nelle prossime settimane, prova a chiedere un parere a qualcuno prima di iniziare un compito che normalmente affronteresti da solo/a. Non per rallentarti, ma per scoprire se emerge una prospettiva che non avevi considerato."
+  },
+  architect: {
+    itName: "Architetto", enName: "The Architect", color: "#1D9E75",
+    tagline: "Collaborazione strategica: integri prospettive diverse per costruire risultati migliori insieme.",
+    strengths: [
+      "Visione d'insieme e capacità di integrare contributi diversi",
+      "Creatività nel trovare soluzioni che funzionano per tutti",
+      "Capacità di costruire fiducia e far emergere il meglio dalle persone",
+      "Orientamento a risultati di alta qualità attraverso il lavoro di squadra"
+    ],
+    growth: [
+      "Attenzione ai tempi: non tutto richiede un processo collaborativo approfondito",
+      "Saper riconoscere quando è meglio decidere rapidamente piuttosto che cercare il consenso",
+      "Evitare il rischio di 'sovra-elaborazione' su questioni semplici"
+    ],
+    tips: "Nelle prossime settimane, quando ti trovi a voler coinvolgere più persone, chiediti: 'Questa decisione ne ha davvero bisogno, o posso procedere e aggiornare dopo?' A volte l'efficacia è collaborare meno, ma meglio."
+  },
+  adapter: {
+    itName: "Pragmatico", enName: "The Adapter", color: "#BA7517",
+    tagline: "Flessibilità e senso pratico: trovi compromessi che sbloccano le situazioni e fanno andare avanti tutti.",
+    strengths: [
+      "Flessibilità e capacità di adattamento a contesti diversi",
+      "Senso pratico: sai trovare soluzioni 'buone abbastanza' per tutti",
+      "Capacità di sbloccare situazioni di stallo",
+      "Facilità nel lavorare con persone di stili diversi"
+    ],
+    growth: [
+      "Prendere posizione in modo chiaro quando la situazione lo richiede",
+      "Non sacrificare sempre qualcosa per raggiungere il compromesso — a volte una parte ha ragione",
+      "Attenzione a non sembrare incoerente: la flessibilità è un punto di forza se comunicata bene"
+    ],
+    tips: "Nelle prossime settimane, prova a notare quando stai per proporre un compromesso: chiediti prima 'Qual è la soluzione migliore?' e solo dopo 'Qual è quella accettabile per tutti?' Potresti scoprire che la prima risposta è già condivisa."
+  },
+  observer: {
+    itName: "Osservatore", enName: "The Observer", color: "#6B6B65",
+    tagline: "Riflessività e profondità: ascolti, analizzi e intervieni con precisione quando è il momento giusto.",
+    strengths: [
+      "Capacità di ascolto e osservazione profonda",
+      "Riflessività: le tue osservazioni sono spesso le più ponderate",
+      "Stabilità: non crei onde inutili e porti calma nei momenti di tensione",
+      "Capacità analitica: vedi cose che ad altri sfuggono"
+    ],
+    growth: [
+      "Condividere le tue idee anche quando non sono ancora 'perfette'",
+      "Non aspettare troppo: il momento giusto a volte è adesso",
+      "Segnalare attivamente il tuo impegno — il silenzio può essere interpretato come disinteresse"
+    ],
+    tips: "Nelle prossime settimane, prova a condividere un'idea 'in progress' con una persona di fiducia, anche se non è ancora completa. Potresti scoprire che il contributo più utile è proprio quello che arriva prima della perfezione."
+  },
+  connector: {
+    itName: "Connettore", enName: "The Connector", color: "#7F77DD",
+    tagline: "Relazione e cura del gruppo: ti assicuri che ogni persona si senta parte della squadra.",
+    strengths: [
+      "Capacità di creare un clima positivo e inclusivo",
+      "Sensibilità verso i bisogni e gli stati d'animo delle persone",
+      "Costruzione di fiducia e relazioni solide nel tempo",
+      "Capacità di far sentire tutti parte della squadra"
+    ],
+    growth: [
+      "Non evitare il confronto necessario per paura di rompere l'armonia",
+      "Bilanciare la cura delle relazioni con il focus sui risultati",
+      "Esprimere il tuo disaccordo quando ne hai uno — le relazioni sane includono anche questo"
+    ],
+    tips: "Nelle prossime settimane, se ti trovi in disaccordo con qualcuno, prova a esprimerlo apertamente ma con cura. Potresti scoprire che dire la verità con gentilezza rafforza la relazione invece di indebolirla."
+  }
+};
+
+// ─── STATE ───
+let answers = {};
+let currentPage = 0;
+
+// ─── BUILD QUESTION PAGES ───
+function buildQuestionPages() {
+  const pages = [
+    questions.slice(0, 5),
+    questions.slice(5, 10),
+    questions.slice(10, 15),
+    questions.slice(15, 20),
+  ];
+
+  pages.forEach((group, pageIdx) => {
+    const pageEl = document.getElementById(`page-q${pageIdx + 1}`);
+    let html = '';
+
+    // Progress bar
+    html += '<div class="progress-bar">';
+    for (let i = 0; i < 4; i++) {
+      const cls = i < pageIdx ? 'done' : i === pageIdx ? 'current' : '';
+      html += `<div class="progress-step ${cls}"></div>`;
+    }
+    html += '</div>';
+
+    html += `<div class="step-label">Blocco ${pageIdx + 1} di 4</div>`;
+
+    // Questions
+    group.forEach((q, qIdx) => {
+      const globalIdx = pageIdx * 5 + qIdx + 1;
+      html += `
+        <div class="question-block" id="qblock-${q.id}">
+          <div class="question-number">Domanda ${globalIdx} di 20</div>
+          <div class="question-text">${q.text}</div>
+          <div class="likert-buttons">
+            ${likertLabels.map((label, i) => `
+              <button class="likert-btn" data-qid="${q.id}" data-value="${i+1}" onclick="selectAnswer(${q.id}, ${i+1}, this)">
+                <span class="likert-value">${i+1}</span>
+                <span class="likert-label">${label}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+
+    // Warning
+    html += '<div class="unanswered-warning" id="warning-' + (pageIdx+1) + '">Rispondi a tutte le domande per continuare</div>';
+
+    // Nav buttons
+    html += '<div class="nav-buttons">';
+    if (pageIdx > 0) {
+      html += `<button class="btn-secondary" onclick="goToPage(${pageIdx})">Indietro</button>`;
+    }
+    if (pageIdx < 3) {
+      html += `<button class="btn-primary" onclick="nextPage(${pageIdx + 1})" id="next-${pageIdx+1}">Avanti</button>`;
+    } else {
+      html += `<button class="btn-primary" onclick="submitQuiz()" id="submit-btn">Scopri il tuo profilo</button>`;
+    }
+    html += '</div>';
+
+    pageEl.innerHTML = html;
+  });
+}
+
+function selectAnswer(qid, value, btn) {
+  answers[qid] = value;
+
+  // Update UI
+  const siblings = btn.parentElement.querySelectorAll('.likert-btn');
+  siblings.forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+
+  // Mark block as answered
+  document.getElementById(`qblock-${qid}`).classList.add('answered');
+
+  // Hide warning
+  const currentPageIdx = Math.ceil(questions.findIndex(q => q.id === qid) / 5);
+  const warning = document.getElementById(`warning-${currentPageIdx + 1}`);
+  if (warning) warning.style.display = 'none';
+}
+
+function pageQuestionsAnswered(pageIdx) {
+  const group = questions.slice(pageIdx * 5, (pageIdx + 1) * 5);
+  return group.every(q => answers[q.id] !== undefined);
+}
+
+function startQuiz() {
+  goToPage(1);
+}
+
+function goToPage(pageNum) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  if (pageNum === 0) {
+    document.getElementById('page-intro').classList.add('active');
+  } else if (pageNum <= 4) {
+    document.getElementById(`page-q${pageNum}`).classList.add('active');
+  } else {
+    document.getElementById('page-results').classList.add('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  currentPage = pageNum;
+}
+
+function nextPage(currentPageIdx) {
+  if (!pageQuestionsAnswered(currentPageIdx - 1)) {
+    const warning = document.getElementById(`warning-${currentPageIdx}`);
+    if (warning) warning.style.display = 'block';
+    return;
+  }
+  goToPage(currentPageIdx + 1);
+}
+
+// ─── SCORING ───
+function calculateScores() {
+  const scores = { pilot: 0, architect: 0, adapter: 0, observer: 0, connector: 0 };
+  questions.forEach(q => {
+    if (answers[q.id]) {
+      scores[q.profile] += answers[q.id];
+    }
+  });
+  return scores;
+}
+
+function getTopProfile(scores) {
+  let max = 0, top = 'pilot';
+  for (const [key, val] of Object.entries(scores)) {
+    if (val > max) { max = val; top = key; }
+  }
+  return top;
+}
+
+// ─── SUBMIT ───
+async function submitQuiz() {
+  if (!pageQuestionsAnswered(3)) {
+    const warning = document.getElementById('warning-4');
+    if (warning) warning.style.display = 'block';
+    return;
+  }
+
+  const overlay = document.getElementById('sendingOverlay');
+  overlay.classList.add('active');
+
+  const scores = calculateScores();
+  const topProfile = getTopProfile(scores);
+
+  // Send to Google Sheets (fire and forget)
+  try {
+    if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL_HERE") {
+      const payload = {
+        timestamp: new Date().toISOString(),
+        answers: questions.map(q => answers[q.id]),
+        scores: scores,
+        topProfile: topProfile,
+      };
+      fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }).catch(() => {});
+    }
+  } catch(e) {}
+
+  // Build results page
+  buildResults(scores, topProfile);
+
+  setTimeout(() => {
+    overlay.classList.remove('active');
+    goToPage(5);
+  }, 800);
+}
+
+// ─── RESULTS ───
+function buildResults(scores, topProfile) {
+  const p = profiles[topProfile];
+  const resultsEl = document.getElementById('page-results');
+
+  // Build SVG chart
+  const chartSvg = buildChartSvg(topProfile);
+
+  // Score bars - sorted by score descending, top profile always visually ahead
+  const profileOrder = ['pilot', 'architect', 'adapter', 'observer', 'connector'];
+  const sorted = profileOrder
+    .map(key => ({ key, score: scores[key], ...profiles[key] }))
+    .sort((a, b) => b.score - a.score);
+
+  // Ensure top profile bar is always visually longer
+  const maxScore = sorted[0].score;
+  const secondScore = sorted.length > 1 ? sorted[1].score : 0;
+  const topBoost = (maxScore === secondScore) ? 8 : 0; // add visual boost if tied
+
+  const barMax = maxScore + topBoost; // scale reference
+  const scoreBars = sorted.map((pr, i) => {
+    const isTop = pr.key === topProfile;
+    const visualScore = isTop ? pr.score + topBoost : pr.score;
+    const pct = barMax > 0 ? Math.max((visualScore / barMax) * 100, 12) : 12;
+    return `
+      <div class="bar-row">
+        <div class="bar-label" style="color:${pr.color}">${pr.itName}</div>
+        <div class="bar-track">
+          <div class="bar-fill ${isTop ? 'bar-top' : ''}" style="width:${pct}%; background:${pr.color}; opacity:${isTop ? 1 : 0.55}"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  resultsEl.innerHTML = `
+    <div id="pdf-page1" class="pdf-capture">
+    <div class="results-header">
+      <h1>Il tuo profilo</h1>
+      <p>Ecco il tuo stile prevalente di collaborazione</p>
+    </div>
+
+    <div class="profile-card" style="background: ${p.color}">
+      <div class="profile-en">${p.enName}</div>
+      <h2>${p.itName}</h2>
+      <div class="profile-tagline">${p.tagline}</div>
+    </div>
+
+    <div class="chart-container">
+      <h3>La tua posizione nel modello</h3>
+      ${chartSvg}
+    </div>
+
+    <div class="detail-section">
+      <h3>Il modello</h3>
+      <p>Il questionario si basa su due dimensioni fondamentali:</p>
+      <p style="margin-top:10px"><strong>Focus sul contributo</strong> — quanto il tuo approccio è orientato al lavoro individuale oppure al lavoro collettivo.</p>
+      <p style="margin-top:6px"><strong>Orientamento</strong> — quanto sei guidato/a dal raggiungimento del risultato oppure dalla cura della relazione.</p>
+      <p style="margin-top:10px">Dall'incrocio di queste due dimensioni emergono cinque profili. Nessun profilo è migliore di un altro: ognuno ha punti di forza specifici e aree in cui crescere. La consapevolezza del proprio stile è il primo passo per collaborare meglio.</p>
+    </div>
+    </div>
+
+    <div id="pdf-page2" class="pdf-capture">
+    <div class="profile-card-mini" style="background: ${p.color}">
+      <span class="profile-mini-en">${p.enName}</span>
+      <span class="profile-mini-it">${p.itName}</span>
+    </div>
+
+    <div class="detail-section">
+      <h3>I tuoi stili</h3>
+      <div class="bars-container">${scoreBars}</div>
+    </div>
+
+    <div class="detail-section">
+      <h3>✦ Punti di forza</h3>
+      <ul>${p.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>
+
+    <div class="detail-section">
+      <h3>⟡ Aree di sviluppo</h3>
+      <ul>${p.growth.map(g => `<li>${g}</li>`).join('')}</ul>
+    </div>
+
+    <div class="detail-section">
+      <h3>→ Un esperimento da provare</h3>
+      <p>${p.tips}</p>
+    </div>
+    </div>
+
+    <button class="btn-download" onclick="downloadPDF()" id="btn-download">⬇ Scarica il tuo profilo (PDF)</button>
+    <button class="btn-restart" onclick="restartQuiz()">↺ Rifai il questionario</button>
+  `;
+}
+
+function buildChartSvg(topProfile) {
+  const boxW = 180, boxH = 56;
+  // Quadrant centers: left=175, right=405, top=115, bottom=285, center=200
+  const profs = [
+    { key: 'pilot', x: 85, y: 82, label: 'PILOTA', en: 'The Pilot', color: '#D85A30' },
+    { key: 'architect', x: 315, y: 82, label: 'ARCHITETTO', en: 'The Architect', color: '#1D9E75' },
+    { key: 'adapter', x: 200, y: 172, label: 'PRAGMATICO', en: 'The Adapter', color: '#BA7517' },
+    { key: 'observer', x: 85, y: 262, label: 'OSSERVATORE', en: 'The Observer', color: '#6B6B65' },
+    { key: 'connector', x: 315, y: 262, label: 'CONNETTORE', en: 'The Connector', color: '#7F77DD' },
+  ];
+
+  let rects = '';
+  profs.forEach(pr => {
+    const isActive = pr.key === topProfile;
+    const opacity = isActive ? 1 : 0.18;
+    const stroke = isActive ? 'stroke="white" stroke-width="2.5"' : '';
+    rects += `
+      <g opacity="${opacity}">
+        <rect x="${pr.x}" y="${pr.y}" width="${boxW}" height="${boxH}" rx="10" fill="${pr.color}" ${stroke}/>
+        <text x="${pr.x + boxW/2}" y="${pr.y + 22}" text-anchor="middle" fill="white" font-size="13" font-weight="700" font-family="DM Sans, sans-serif">${pr.label}</text>
+        <text x="${pr.x + boxW/2}" y="${pr.y + 40}" text-anchor="middle" fill="white" font-size="10" font-family="DM Sans, sans-serif" opacity="0.65" font-style="italic">${pr.en}</text>
+      </g>
+    `;
+  });
+
+  return `
+    <svg class="chart-svg" viewBox="0 0 580 410" xmlns="http://www.w3.org/2000/svg">
+      <!-- Quadrant bg -->
+      <rect x="60" y="30" width="230" height="170" fill="#FFF5EE" opacity="0.5" rx="4"/>
+      <rect x="290" y="30" width="230" height="170" fill="#E8F5F0" opacity="0.5" rx="4"/>
+      <rect x="60" y="200" width="230" height="170" fill="#F5F5F0" opacity="0.5" rx="4"/>
+      <rect x="290" y="200" width="230" height="170" fill="#F0EBF5" opacity="0.5" rx="4"/>
+      <!-- Axes -->
+      <line x1="60" y1="370" x2="520" y2="370" stroke="#999" stroke-width="1"/>
+      <line x1="60" y1="370" x2="60" y2="30" stroke="#999" stroke-width="1"/>
+      <polygon points="520,370 512,366 512,374" fill="#999"/>
+      <polygon points="60,30 56,38 64,38" fill="#999"/>
+      <!-- Dashed dividers -->
+      <line x1="290" y1="30" x2="290" y2="370" stroke="#ccc" stroke-width="0.6" stroke-dasharray="5 3"/>
+      <line x1="60" y1="200" x2="520" y2="200" stroke="#ccc" stroke-width="0.6" stroke-dasharray="5 3"/>
+      <!-- Axis labels -->
+      <text x="290" y="395" text-anchor="middle" font-size="11" fill="#888" font-style="italic" font-family="DM Sans">Focus sul contributo</text>
+      <text x="130" y="387" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" font-family="DM Sans">individuale</text>
+      <text x="450" y="387" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" font-family="DM Sans">collettivo</text>
+      <text x="28" y="200" text-anchor="middle" font-size="11" fill="#888" font-style="italic" font-family="DM Sans" transform="rotate(-90,28,200)">Orientamento</text>
+      <text x="48" y="55" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" font-family="DM Sans">risultato</text>
+      <text x="48" y="355" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" font-family="DM Sans">relazione</text>
+      <!-- Profile boxes -->
+      ${rects}
+    </svg>
+  `;
+}
+
+// ─── PDF DOWNLOAD ───
+async function downloadPDF() {
+  const btn = document.getElementById('btn-download');
+  btn.disabled = true;
+  btn.textContent = 'Generazione PDF in corso...';
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = 210;
+    const pageHeight = 297;
+    const margin = 10;
+    const contentWidth = pageWidth - (margin * 2);
+
+    const captureOpts = {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#FAFAF7',
+      logging: false,
+      windowWidth: 680,
+    };
+
+    // Capture page 1
+    const page1 = document.getElementById('pdf-page1');
+    page1.style.padding = '20px';
+    page1.style.background = '#FAFAF7';
+    const canvas1 = await html2canvas(page1, captureOpts);
+    page1.style.padding = '';
+    page1.style.background = '';
+
+    const img1 = canvas1.toDataURL('image/jpeg', 0.92);
+    const h1 = (canvas1.height / canvas1.width) * contentWidth;
+    pdf.addImage(img1, 'JPEG', margin, margin, contentWidth, Math.min(h1, pageHeight - margin * 2));
+
+    // Capture page 2
+    pdf.addPage();
+    const page2 = document.getElementById('pdf-page2');
+    page2.style.padding = '20px';
+    page2.style.background = '#FAFAF7';
+    const canvas2 = await html2canvas(page2, captureOpts);
+    page2.style.padding = '';
+    page2.style.background = '';
+
+    const img2 = canvas2.toDataURL('image/jpeg', 0.92);
+    const h2 = (canvas2.height / canvas2.width) * contentWidth;
+    pdf.addImage(img2, 'JPEG', margin, margin, contentWidth, Math.min(h2, pageHeight - margin * 2));
+
+    pdf.save('il-mio-stile-di-collaborazione.pdf');
+
+  } catch (err) {
+    console.error('PDF generation error:', err);
+    alert('Si è verificato un errore nella generazione del PDF. Riprova.');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '⬇ Scarica il tuo profilo (PDF)';
+}
+
+function restartQuiz() {
+  answers = {};
+  currentPage = 0;
+  // Reset UI
+  document.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.question-block').forEach(b => b.classList.remove('answered'));
+  document.querySelectorAll('.unanswered-warning').forEach(w => w.style.display = 'none');
+  goToPage(0);
+}
+
+// ─── INIT ───
+buildQuestionPages();
+</script>
+
+</body>
+</html>
