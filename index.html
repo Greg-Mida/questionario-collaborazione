@@ -9,11 +9,11 @@
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
 <style>
 :root {
-  --pilot: #D85A30;
-  --architect: #1D9E75;
-  --adapter: #BA7517;
-  --observer: #6B6B65;
-  --connector: #7F77DD;
+  --pilot: #ED7D31;
+  --architect: #926EAA;
+  --adapter: #C8778E;
+  --observer: #A772A4;
+  --connector: #E37B66;
   --bg: #FAFAF7;
   --card: #FFFFFF;
   --text: #1D1D1B;
@@ -40,7 +40,6 @@ body {
   min-height: 100vh;
 }
 
-/* ─── INTRO PAGE ─── */
 .page { display: none; }
 .page.active { display: block; animation: fadeIn 0.4s ease; }
 
@@ -49,6 +48,63 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ─── PASSWORD PAGE ─── */
+.password-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  text-align: center;
+}
+
+.password-page h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+.password-page .password-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.password-input-wrap {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+
+.password-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+  background: white;
+}
+
+.password-input:focus { border-color: var(--accent); }
+.password-input.error { border-color: #c0392b; }
+
+.password-error {
+  color: #c0392b;
+  font-size: 13px;
+  margin-bottom: 12px;
+  min-height: 20px;
+}
+
+.password-page .btn-primary {
+  max-width: 320px;
+}
+
+/* ─── INTRO PAGE ─── */
 .intro-badge {
   display: inline-block;
   background: var(--accent);
@@ -76,59 +132,36 @@ h1 {
   font-size: 17px;
   line-height: 1.65;
   color: var(--text-secondary);
-  margin-bottom: 32px;
+  margin-bottom: 20px;
 }
 
-.intro-axes {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 32px;
+.intro-anon {
+  font-size: 14px;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  background: #f3f0f8;
+  border-radius: 10px;
+  display: inline-block;
 }
-
-.intro-axes h3 {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 16px;
-}
-
-.axis-item {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.axis-item:last-child { margin-bottom: 0; }
-
-.axis-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin-top: 7px;
-  flex-shrink: 0;
-}
-
-.axis-item p {
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--text);
-}
-
-.axis-item strong { font-weight: 600; }
 
 .intro-note {
   font-size: 14px;
   line-height: 1.6;
   color: var(--text-secondary);
   font-style: italic;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   padding: 16px 20px;
   border-left: 3px solid var(--border);
+}
+
+.intro-disclaimer {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #999;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .btn-primary {
@@ -150,30 +183,11 @@ h1 {
 .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; box-shadow: none; }
 
 /* ─── PROGRESS BAR ─── */
-.progress-bar {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 32px;
-  margin-top: 20px;
-}
-
-.progress-step {
-  flex: 1;
-  height: 4px;
-  border-radius: 4px;
-  background: var(--border);
-  transition: background 0.4s;
-}
-
+.progress-bar { display: flex; gap: 6px; margin-bottom: 32px; margin-top: 20px; }
+.progress-step { flex: 1; height: 4px; border-radius: 4px; background: var(--border); transition: background 0.4s; }
 .progress-step.done { background: var(--accent); }
 .progress-step.current { background: var(--accent); opacity: 0.5; }
-
-.step-label {
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
-  font-weight: 500;
-}
+.step-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; font-weight: 500; }
 
 /* ─── QUESTIONS ─── */
 .question-block {
@@ -187,25 +201,10 @@ h1 {
 
 .question-block.answered { border-color: var(--accent); }
 
-.question-number {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--accent);
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-}
+.question-number { font-size: 12px; font-weight: 600; color: var(--accent); letter-spacing: 0.5px; margin-bottom: 8px; }
+.question-text { font-size: 15px; line-height: 1.55; margin-bottom: 16px; font-weight: 400; }
 
-.question-text {
-  font-size: 15px;
-  line-height: 1.55;
-  margin-bottom: 16px;
-  font-weight: 400;
-}
-
-.likert-buttons {
-  display: flex;
-  gap: 6px;
-}
+.likert-buttons { display: flex; gap: 6px; }
 
 .likert-btn {
   flex: 1;
@@ -219,7 +218,7 @@ h1 {
   font-family: 'DM Sans', sans-serif;
 }
 
-.likert-btn:hover { border-color: var(--accent); background: #f0faf6; }
+.likert-btn:hover { border-color: var(--accent); background: #f3f0f8; }
 
 .likert-btn.selected {
   border-color: var(--accent);
@@ -227,28 +226,11 @@ h1 {
   color: white;
 }
 
-.likert-btn .likert-value {
-  display: block;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-.likert-btn .likert-label {
-  display: block;
-  font-size: 10px;
-  line-height: 1.3;
-  margin-top: 2px;
-  opacity: 0.7;
-}
-
+.likert-btn .likert-value { display: block; font-size: 16px; font-weight: 600; line-height: 1.2; }
+.likert-btn .likert-label { display: block; font-size: 10px; line-height: 1.3; margin-top: 2px; opacity: 0.7; }
 .likert-btn.selected .likert-label { opacity: 1; }
 
-.nav-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-}
+.nav-buttons { display: flex; gap: 12px; margin-top: 24px; }
 
 .btn-secondary {
   flex: 1;
@@ -265,24 +247,12 @@ h1 {
 }
 
 .btn-secondary:hover { border-color: var(--text-secondary); }
-
 .nav-buttons .btn-primary { flex: 2; }
 
-.unanswered-warning {
-  display: none;
-  text-align: center;
-  color: #c0392b;
-  font-size: 14px;
-  margin-top: 12px;
-}
+.unanswered-warning { display: none; text-align: center; color: #c0392b; font-size: 14px; margin-top: 12px; }
 
 /* ─── RESULTS ─── */
-.results-header {
-  text-align: center;
-  margin-bottom: 32px;
-  margin-top: 32px;
-}
-
+.results-header { text-align: center; margin-bottom: 32px; margin-top: 32px; }
 .results-header h1 { font-size: 32px; margin-bottom: 8px; }
 .results-header p { color: var(--text-secondary); font-size: 16px; }
 
@@ -306,27 +276,9 @@ h1 {
   background: rgba(255,255,255,0.08);
 }
 
-.profile-card .profile-en {
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  opacity: 0.7;
-  margin-bottom: 4px;
-}
-
-.profile-card h2 {
-  font-family: 'Fraunces', serif;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.profile-card .profile-tagline {
-  font-size: 16px;
-  opacity: 0.85;
-  line-height: 1.5;
-}
+.profile-card .profile-en { font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px; }
+.profile-card h2 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; margin-bottom: 12px; }
+.profile-card .profile-tagline { font-size: 16px; opacity: 0.85; line-height: 1.5; }
 
 .chart-container {
   background: var(--card);
@@ -347,50 +299,12 @@ h1 {
 }
 
 /* ─── BAR CHART ─── */
-.bars-container {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.bar-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.bar-label {
-  width: 110px;
-  flex-shrink: 0;
-  font-size: 13px;
-  font-weight: 600;
-  text-align: right;
-}
-
-.bar-track {
-  flex: 1;
-  height: 28px;
-  background: var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.bar-fill {
-  height: 100%;
-  border-radius: 8px;
-  transition: width 0.8s ease;
-  min-width: 20px;
-}
-
-.bar-top {
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-@media (max-width: 480px) {
-  .bar-label { width: 90px; font-size: 12px; }
-  .bar-track { height: 24px; }
-}
+.bars-container { display: flex; flex-direction: column; gap: 12px; margin-top: 12px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
+.bar-label { width: 110px; flex-shrink: 0; font-size: 13px; font-weight: 600; text-align: right; }
+.bar-track { flex: 1; height: 28px; background: var(--border); border-radius: 8px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 8px; transition: width 0.8s ease; min-width: 20px; }
+.bar-top { box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
 
 .detail-section {
   background: var(--card);
@@ -400,47 +314,38 @@ h1 {
   margin-bottom: 16px;
 }
 
-.detail-section h3 {
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.detail-section p, .detail-section li {
-  font-size: 14px;
-  line-height: 1.65;
-  color: var(--text-secondary);
-}
-
-.detail-section ul {
-  padding-left: 20px;
-}
-
+.detail-section h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.detail-section p, .detail-section li { font-size: 14px; line-height: 1.65; color: var(--text-secondary); }
+.detail-section ul { padding-left: 20px; }
 .detail-section li { margin-bottom: 6px; }
 
-.btn-restart {
-  display: block;
-  width: 100%;
-  padding: 14px;
-  background: white;
-  color: var(--text);
-  border: 1.5px solid var(--border);
+/* ─── CTA BOX ─── */
+.cta-box {
+  background: #f3f0f8;
   border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  cursor: pointer;
-  margin-top: 24px;
-  margin-bottom: 40px;
-  transition: all 0.2s;
+  padding: 20px;
+  margin-bottom: 16px;
+  text-align: center;
 }
 
-.btn-restart:hover { border-color: var(--text-secondary); }
+.cta-box p { font-size: 14px; line-height: 1.6; color: var(--accent); font-weight: 500; }
+.cta-box .cta-save { font-size: 13px; color: var(--text-secondary); margin-top: 6px; font-weight: 400; }
 
-/* ─── PDF DOWNLOAD ─── */
+/* ─── MINI PROFILE CARD ─── */
+.profile-card-mini {
+  border-radius: 12px;
+  padding: 14px 20px;
+  margin-bottom: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.profile-mini-en { font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; opacity: 0.7; }
+.profile-mini-it { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; }
+
+/* ─── PDF / BUTTONS ─── */
 .btn-download {
   display: block;
   width: 100%;
@@ -460,80 +365,50 @@ h1 {
 .btn-download:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(116,94,174,0.3); }
 .btn-download:disabled { opacity: 0.5; cursor: wait; transform: none; box-shadow: none; }
 
+.btn-restart {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: white;
+  color: var(--text);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 12px;
+  margin-bottom: 40px;
+  transition: all 0.2s;
+}
+
+.btn-restart:hover { border-color: var(--text-secondary); }
+
 .pdf-capture { background: var(--bg); }
 
-/* ─── MINI PROFILE CARD ─── */
-.profile-card-mini {
-  border-radius: 12px;
-  padding: 14px 20px;
-  margin-bottom: 16px;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.profile-mini-en {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  opacity: 0.7;
-}
-
-.profile-mini-it {
-  font-family: 'Fraunces', serif;
-  font-size: 20px;
-  font-weight: 700;
-}
-
-/* ─── CHART SVG ─── */
 .chart-svg { width: 100%; max-width: 500px; margin: 0 auto; display: block; }
+
+/* ─── LOGO FOOTER ─── */
+.logo-footer { text-align: right; padding: 32px 0 16px; opacity: 0.3; transition: opacity 0.3s; }
+.logo-footer:hover { opacity: 0.5; }
+.logo-footer img { height: 40px; width: auto; }
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 480px) {
   h1 { font-size: 28px; }
   .likert-btn .likert-label { font-size: 9px; }
   .likert-btn { padding: 8px 2px; }
+  .bar-label { width: 90px; font-size: 12px; }
+  .bar-track { height: 24px; }
+  .password-page h1 { font-size: 24px; }
 }
 
 /* ─── SENDING STATE ─── */
-.sending-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(250,250,247,0.92);
-  z-index: 100;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 16px;
-}
-
+.sending-overlay { display: none; position: fixed; inset: 0; background: rgba(250,250,247,0.92); z-index: 100; justify-content: center; align-items: center; flex-direction: column; gap: 16px; }
 .sending-overlay.active { display: flex; }
-
-.spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid var(--border);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
+.spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .sending-text { font-size: 15px; color: var(--text-secondary); }
-
-/* ─── LOGO FOOTER ─── */
-.logo-footer {
-  text-align: right;
-  padding: 32px 0 16px;
-  opacity: 0.3;
-  transition: opacity 0.3s;
-}
-.logo-footer:hover { opacity: 0.5; }
-.logo-footer img { height: 40px; width: auto; }
 </style>
 </head>
 <body>
@@ -545,18 +420,35 @@ h1 {
 
 <div class="container">
 
-  <!-- ═══ PAGE: INTRO ═══ -->
-  <div class="page active" id="page-intro">
-    <div class="intro-badge">Pre-work</div>
-    <h1>Scopri il tuo stile di collaborazione</h1>
-    <p class="intro-subtitle">Ognuno di noi collabora in modo diverso. Questo questionario ti aiuterà a scoprire il <strong>tuo approccio naturale al lavoro di squadra.</strong><br><br>Non esistono risposte giuste o sbagliate: rispondi pensando a come ti comporti effettivamente nel tuo contesto lavorativo.</p>
-
-    <div class="intro-note">20 domande · circa 5 minuti · risultato immediato</div>
-
-    <button class="btn-primary" onclick="startQuiz()">Inizia il questionario</button>
+  <!-- ═══ PAGE: PASSWORD ═══ -->
+  <div class="page active" id="page-password">
+    <div class="password-page">
+      <h1>Accedi al questionario</h1>
+      <p class="password-subtitle">Inserisci la password che ti è stata fornita.</p>
+      <div class="password-input-wrap">
+        <input type="text" class="password-input" id="password-field" placeholder="Password" autocomplete="off" onkeydown="if(event.key==='Enter')checkPassword()">
+      </div>
+      <div class="password-error" id="password-error"></div>
+      <button class="btn-primary" onclick="checkPassword()" style="max-width:320px" id="password-btn">Accedi</button>
+    </div>
   </div>
 
-  <!-- ═══ PAGES: QUESTIONS (generated by JS) ═══ -->
+  <!-- ═══ PAGE: INTRO ═══ -->
+  <div class="page" id="page-intro">
+    <div class="intro-badge">Pre-work</div>
+    <h1>Scopri il tuo stile di collaborazione</h1>
+    <p class="intro-subtitle">Ognuno di noi collabora in modo diverso. Questo questionario ti aiuterà a scoprire il <strong>tuo approccio naturale al lavoro di squadra.</strong></p>
+
+    <div class="intro-anon">Le risposte sono anonime e verranno utilizzate solo in forma aggregata.</div>
+
+    <p class="intro-note">20 domande · circa 5 minuti · risultato immediato<br><br>Non esistono risposte giuste o sbagliate: rispondi pensando a come ti comporti effettivamente nel tuo contesto lavorativo.</p>
+
+    <button class="btn-primary" onclick="startQuiz()">Inizia il questionario</button>
+
+    <p class="intro-disclaimer">Questo strumento è un auto-diagnostico ispirato a modelli sulla collaborazione e gli stili relazionali. È pensato come spunto di riflessione personale, non come valutazione.</p>
+  </div>
+
+  <!-- ═══ PAGES: QUESTIONS ═══ -->
   <div class="page" id="page-q1"></div>
   <div class="page" id="page-q2"></div>
   <div class="page" id="page-q3"></div>
@@ -573,30 +465,30 @@ h1 {
 
 <script>
 // ─── CONFIG ───
-// IMPORTANT: Replace this URL with your Google Apps Script Web App URL
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwOSivnLLSbm6tL8S3IcJu7ZJ94MaHUTFCVaoax88XTwxC1xvh6GFs84vQdIbFjwSDlEA/exec";
+
+// ─── STATE ───
+let answers = {};
+let currentPage = 0;
+let userPassword = "";
 
 // ─── QUESTIONS ───
 const questions = [
-  // Mixed order: 1 per profile, cycling through
-  { id: 1,  text: "Quando c'è un compito urgente, preferisco occuparmene in prima persona piuttosto che delegare o coinvolgere altri.", profile: "pilot" },
+  { id: 1,  text: "Quando c\u2019è un compito urgente, preferisco occuparmene in prima persona piuttosto che delegare o coinvolgere altri.", profile: "pilot" },
   { id: 5,  text: "Quando affronto un problema complesso, cerco attivamente il contributo di colleghi e colleghe con competenze diverse dalle mie.", profile: "architect" },
   { id: 9,  text: "Di fronte a un disaccordo nel team, cerco una soluzione pratica che vada bene a tutti, anche se non è perfetta.", profile: "adapter" },
   { id: 13, text: "Prima di esprimere la mia opinione in un gruppo, preferisco ascoltare e osservare cosa pensano le altre persone.", profile: "observer" },
   { id: 17, text: "Per me è importante che tutti i membri del team si sentano coinvolti e a proprio agio prima di procedere.", profile: "connector" },
-
   { id: 2,  text: "In un progetto di gruppo, mi trovo più a mio agio quando ho la responsabilità chiara di una parte specifica.", profile: "pilot" },
   { id: 6,  text: "Mi capita spesso di proporre modi nuovi di lavorare insieme per ottenere risultati migliori.", profile: "architect" },
   { id: 10, text: "Adatto il mio modo di lavorare in base alle persone con cui collaboro e alla situazione.", profile: "adapter" },
   { id: 14, text: "In situazioni di tensione nel team, tendo a fare un passo indietro e aspettare che le acque si calmino.", profile: "observer" },
   { id: 18, text: "Investo tempo nel costruire e mantenere buoni rapporti con chi lavora con me, anche al di fuori dei progetti.", profile: "connector" },
-
   { id: 3,  text: "Quando ho un obiettivo da raggiungere, mi concentro su come arrivarci nel modo più efficace, anche se questo significa lavorare in autonomia.", profile: "pilot" },
   { id: 7,  text: "Dedico tempo a capire gli obiettivi delle altre persone per trovare soluzioni che funzionino per tutti.", profile: "architect" },
   { id: 11, text: "Preferisco trovare un compromesso rapido piuttosto che discutere a lungo per la soluzione ideale.", profile: "adapter" },
   { id: 15, text: "Mi capita di avere idee che non condivido subito, preferendo aspettare il momento giusto.", profile: "observer" },
   { id: 19, text: "Quando qualcuno nel team è in difficoltà, la mia prima reazione è offrire supporto, anche se rallenta il mio lavoro.", profile: "connector" },
-
   { id: 4,  text: "Mi sento più produttivo/a quando posso organizzare il lavoro a modo mio, senza dover allineare continuamente le altre persone.", profile: "pilot" },
   { id: 8,  text: "Credo che i risultati migliori nascano quando si mettono insieme prospettive diverse, anche se richiede più tempo.", profile: "architect" },
   { id: 12, text: "Quando un progetto si blocca, mi viene naturale proporre una strada intermedia per far ripartire le cose.", profile: "adapter" },
@@ -608,7 +500,7 @@ const likertLabels = ["Mai", "Raramente", "A volte", "Spesso", "Sempre"];
 
 const profiles = {
   pilot: {
-    itName: "Pilota", enName: "The Pilot", color: "#D85A30",
+    itName: "Pilota", enName: "The Pilot", color: "#ED7D31",
     tagline: "Orientamento al risultato, efficacia e autonomia. Sai dove andare e ci arrivi.",
     strengths: [
       "Velocità ed efficacia nell'esecuzione",
@@ -624,7 +516,7 @@ const profiles = {
     tips: "Nelle prossime settimane, prova a chiedere un parere a qualcuno prima di iniziare un compito che normalmente affronteresti da solo/a. Non per rallentarti, ma per scoprire se emerge una prospettiva che non avevi considerato."
   },
   architect: {
-    itName: "Architetto", enName: "The Architect", color: "#1D9E75",
+    itName: "Architetto", enName: "The Architect", color: "#926EAA",
     tagline: "Collaborazione strategica: integri prospettive diverse per costruire risultati migliori insieme.",
     strengths: [
       "Visione d'insieme e capacità di integrare contributi diversi",
@@ -640,7 +532,7 @@ const profiles = {
     tips: "Nelle prossime settimane, quando ti trovi a voler coinvolgere più persone, chiediti: 'Questa decisione ne ha davvero bisogno, o posso procedere e aggiornare dopo?' A volte l'efficacia è collaborare meno, ma meglio."
   },
   adapter: {
-    itName: "Pragmatico", enName: "The Adapter", color: "#BA7517",
+    itName: "Pragmatico", enName: "The Adapter", color: "#C8778E",
     tagline: "Flessibilità e senso pratico: trovi compromessi che sbloccano le situazioni e fanno andare avanti tutti.",
     strengths: [
       "Flessibilità e capacità di adattamento a contesti diversi",
@@ -656,7 +548,7 @@ const profiles = {
     tips: "Nelle prossime settimane, prova a notare quando stai per proporre un compromesso: chiediti prima 'Qual è la soluzione migliore?' e solo dopo 'Qual è quella accettabile per tutti?' Potresti scoprire che la prima risposta è già condivisa."
   },
   observer: {
-    itName: "Osservatore", enName: "The Observer", color: "#6B6B65",
+    itName: "Osservatore", enName: "The Observer", color: "#A772A4",
     tagline: "Riflessività e profondità: ascolti, analizzi e intervieni con precisione quando è il momento giusto.",
     strengths: [
       "Capacità di ascolto e osservazione profonda",
@@ -672,7 +564,7 @@ const profiles = {
     tips: "Nelle prossime settimane, prova a condividere un'idea 'in progress' con una persona di fiducia, anche se non è ancora completa. Potresti scoprire che il contributo più utile è proprio quello che arriva prima della perfezione."
   },
   connector: {
-    itName: "Connettore", enName: "The Connector", color: "#7F77DD",
+    itName: "Connettore", enName: "The Connector", color: "#E37B66",
     tagline: "Relazione e cura del gruppo: ti assicuri che ogni persona si senta parte della squadra.",
     strengths: [
       "Capacità di creare un clima positivo e inclusivo",
@@ -689,9 +581,47 @@ const profiles = {
   }
 };
 
-// ─── STATE ───
-let answers = {};
-let currentPage = 0;
+// ─── PASSWORD CHECK ───
+async function checkPassword() {
+  const field = document.getElementById('password-field');
+  const error = document.getElementById('password-error');
+  const btn = document.getElementById('password-btn');
+  const pw = field.value.trim();
+
+  if (!pw) {
+    error.textContent = "Inserisci la password.";
+    field.classList.add('error');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Verifica...";
+  error.textContent = "";
+  field.classList.remove('error');
+
+  try {
+    if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL_HERE") {
+      const res = await fetch(GOOGLE_SCRIPT_URL + "?action=checkPassword&password=" + encodeURIComponent(pw));
+      const data = await res.json();
+      if (!data.valid) {
+        error.textContent = "Password non valida. Riprova.";
+        field.classList.add('error');
+        btn.disabled = false;
+        btn.textContent = "Accedi";
+        return;
+      }
+    }
+    userPassword = pw;
+    goToPage('intro');
+  } catch(e) {
+    // If script not configured or network error, allow access
+    userPassword = pw;
+    goToPage('intro');
+  }
+
+  btn.disabled = false;
+  btn.textContent = "Accedi";
+}
 
 // ─── BUILD QUESTION PAGES ───
 function buildQuestionPages() {
@@ -704,19 +634,14 @@ function buildQuestionPages() {
 
   pages.forEach((group, pageIdx) => {
     const pageEl = document.getElementById(`page-q${pageIdx + 1}`);
-    let html = '';
-
-    // Progress bar
-    html += '<div class="progress-bar">';
+    let html = '<div class="progress-bar">';
     for (let i = 0; i < 4; i++) {
       const cls = i < pageIdx ? 'done' : i === pageIdx ? 'current' : '';
       html += `<div class="progress-step ${cls}"></div>`;
     }
     html += '</div>';
-
     html += `<div class="step-label">Blocco ${pageIdx + 1} di 4</div>`;
 
-    // Questions
     group.forEach((q, qIdx) => {
       const globalIdx = pageIdx * 5 + qIdx + 1;
       html += `
@@ -735,19 +660,11 @@ function buildQuestionPages() {
       `;
     });
 
-    // Warning
-    html += '<div class="unanswered-warning" id="warning-' + (pageIdx+1) + '">Rispondi a tutte le domande per continuare</div>';
-
-    // Nav buttons
+    html += `<div class="unanswered-warning" id="warning-${pageIdx+1}">Rispondi a tutte le domande per continuare</div>`;
     html += '<div class="nav-buttons">';
-    if (pageIdx > 0) {
-      html += `<button class="btn-secondary" onclick="goToPage(${pageIdx})">Indietro</button>`;
-    }
-    if (pageIdx < 3) {
-      html += `<button class="btn-primary" onclick="nextPage(${pageIdx + 1})" id="next-${pageIdx+1}">Avanti</button>`;
-    } else {
-      html += `<button class="btn-primary" onclick="submitQuiz()" id="submit-btn">Scopri il tuo profilo</button>`;
-    }
+    if (pageIdx > 0) html += `<button class="btn-secondary" onclick="goToPage('q${pageIdx}')">Indietro</button>`;
+    if (pageIdx < 3) html += `<button class="btn-primary" onclick="nextPage(${pageIdx + 1})">Avanti</button>`;
+    else html += `<button class="btn-primary" onclick="submitQuiz()">Scopri il tuo profilo</button>`;
     html += '</div>';
 
     pageEl.innerHTML = html;
@@ -756,41 +673,27 @@ function buildQuestionPages() {
 
 function selectAnswer(qid, value, btn) {
   answers[qid] = value;
-
-  // Update UI
-  const siblings = btn.parentElement.querySelectorAll('.likert-btn');
-  siblings.forEach(b => b.classList.remove('selected'));
+  btn.parentElement.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-
-  // Mark block as answered
   document.getElementById(`qblock-${qid}`).classList.add('answered');
-
-  // Hide warning
-  const currentPageIdx = Math.ceil(questions.findIndex(q => q.id === qid) / 5);
-  const warning = document.getElementById(`warning-${currentPageIdx + 1}`);
+  const currentPageIdx = Math.ceil((questions.findIndex(q => q.id === qid) + 1) / 5);
+  const warning = document.getElementById(`warning-${currentPageIdx}`);
   if (warning) warning.style.display = 'none';
 }
 
 function pageQuestionsAnswered(pageIdx) {
-  const group = questions.slice(pageIdx * 5, (pageIdx + 1) * 5);
-  return group.every(q => answers[q.id] !== undefined);
+  return questions.slice(pageIdx * 5, (pageIdx + 1) * 5).every(q => answers[q.id] !== undefined);
 }
 
-function startQuiz() {
-  goToPage(1);
-}
+function startQuiz() { goToPage('q1'); }
 
-function goToPage(pageNum) {
+function goToPage(pageName) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  if (pageNum === 0) {
-    document.getElementById('page-intro').classList.add('active');
-  } else if (pageNum <= 4) {
-    document.getElementById(`page-q${pageNum}`).classList.add('active');
-  } else {
-    document.getElementById('page-results').classList.add('active');
-  }
+  if (pageName === 'password') document.getElementById('page-password').classList.add('active');
+  else if (pageName === 'intro') document.getElementById('page-intro').classList.add('active');
+  else if (pageName === 'results') document.getElementById('page-results').classList.add('active');
+  else document.getElementById(`page-${pageName}`).classList.add('active');
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  currentPage = pageNum;
 }
 
 function nextPage(currentPageIdx) {
@@ -799,25 +702,19 @@ function nextPage(currentPageIdx) {
     if (warning) warning.style.display = 'block';
     return;
   }
-  goToPage(currentPageIdx + 1);
+  goToPage(`q${currentPageIdx + 1}`);
 }
 
 // ─── SCORING ───
 function calculateScores() {
   const scores = { pilot: 0, architect: 0, adapter: 0, observer: 0, connector: 0 };
-  questions.forEach(q => {
-    if (answers[q.id]) {
-      scores[q.profile] += answers[q.id];
-    }
-  });
+  questions.forEach(q => { if (answers[q.id]) scores[q.profile] += answers[q.id]; });
   return scores;
 }
 
 function getTopProfile(scores) {
   let max = 0, top = 'pilot';
-  for (const [key, val] of Object.entries(scores)) {
-    if (val > max) { max = val; top = key; }
-  }
+  for (const [key, val] of Object.entries(scores)) { if (val > max) { max = val; top = key; } }
   return top;
 }
 
@@ -829,36 +726,30 @@ async function submitQuiz() {
     return;
   }
 
-  const overlay = document.getElementById('sendingOverlay');
-  overlay.classList.add('active');
-
+  document.getElementById('sendingOverlay').classList.add('active');
   const scores = calculateScores();
   const topProfile = getTopProfile(scores);
 
-  // Send to Google Sheets (fire and forget)
   try {
     if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL_HERE") {
-      const payload = {
-        timestamp: new Date().toISOString(),
-        answers: questions.map(q => answers[q.id]),
-        scores: scores,
-        topProfile: topProfile,
-      };
       fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          timestamp: new Date().toISOString(),
+          password: userPassword,
+          answers: questions.map(q => answers[q.id]),
+          scores, topProfile,
+        }),
       }).catch(() => {});
     }
   } catch(e) {}
 
-  // Build results page
   buildResults(scores, topProfile);
-
   setTimeout(() => {
-    overlay.classList.remove('active');
-    goToPage(5);
+    document.getElementById('sendingOverlay').classList.remove('active');
+    goToPage('results');
   }, 800);
 }
 
@@ -866,23 +757,19 @@ async function submitQuiz() {
 function buildResults(scores, topProfile) {
   const p = profiles[topProfile];
   const resultsEl = document.getElementById('page-results');
-
-  // Build SVG chart
   const chartSvg = buildChartSvg(topProfile);
 
-  // Score bars - sorted by score descending, top profile always visually ahead
   const profileOrder = ['pilot', 'architect', 'adapter', 'observer', 'connector'];
   const sorted = profileOrder
     .map(key => ({ key, score: scores[key], ...profiles[key] }))
     .sort((a, b) => b.score - a.score);
 
-  // Ensure top profile bar is always visually longer
   const maxScore = sorted[0].score;
   const secondScore = sorted.length > 1 ? sorted[1].score : 0;
-  const topBoost = (maxScore === secondScore) ? 8 : 0; // add visual boost if tied
+  const topBoost = (maxScore === secondScore) ? 8 : 0;
+  const barMax = maxScore + topBoost;
 
-  const barMax = maxScore + topBoost; // scale reference
-  const scoreBars = sorted.map((pr, i) => {
+  const scoreBars = sorted.map(pr => {
     const isTop = pr.key === topProfile;
     const visualScore = isTop ? pr.score + topBoost : pr.score;
     const pct = barMax > 0 ? Math.max((visualScore / barMax) * 100, 12) : 12;
@@ -902,18 +789,15 @@ function buildResults(scores, topProfile) {
       <h1>Il tuo profilo</h1>
       <p>Ecco il tuo stile prevalente di collaborazione</p>
     </div>
-
     <div class="profile-card" style="background: ${p.color}">
       <div class="profile-en">${p.enName}</div>
       <h2>${p.itName}</h2>
       <div class="profile-tagline">${p.tagline}</div>
     </div>
-
     <div class="chart-container">
       <h3>La tua posizione nel modello</h3>
       ${chartSvg}
     </div>
-
     <div class="detail-section">
       <h3>Il modello</h3>
       <p>Il questionario si basa su due dimensioni fondamentali:</p>
@@ -928,25 +812,25 @@ function buildResults(scores, topProfile) {
       <span class="profile-mini-en">${p.enName}</span>
       <span class="profile-mini-it">${p.itName}</span>
     </div>
-
     <div class="detail-section">
       <h3>I tuoi stili</h3>
       <div class="bars-container">${scoreBars}</div>
     </div>
-
     <div class="detail-section">
       <h3>✦ Punti di forza</h3>
       <ul>${p.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
     </div>
-
     <div class="detail-section">
-      <h3>⟡ Aree di sviluppo</h3>
+      <h3>◇ Aree di sviluppo</h3>
       <ul>${p.growth.map(g => `<li>${g}</li>`).join('')}</ul>
     </div>
-
     <div class="detail-section">
       <h3>→ Un esperimento da provare</h3>
       <p>${p.tips}</p>
+    </div>
+    <div class="cta-box">
+      <p>In aula scopriremo insieme gli altri profili e come collaborare al meglio tra stili diversi.</p>
+      <p class="cta-save">Ricorda di scaricare e salvare il tuo profilo!</p>
     </div>
     </div>
 
@@ -957,13 +841,12 @@ function buildResults(scores, topProfile) {
 
 function buildChartSvg(topProfile) {
   const boxW = 180, boxH = 56;
-  // Quadrant centers: left=175, right=405, top=115, bottom=285, center=200
   const profs = [
-    { key: 'pilot', x: 85, y: 82, label: 'PILOTA', en: 'The Pilot', color: '#D85A30' },
-    { key: 'architect', x: 315, y: 82, label: 'ARCHITETTO', en: 'The Architect', color: '#1D9E75' },
-    { key: 'adapter', x: 200, y: 172, label: 'PRAGMATICO', en: 'The Adapter', color: '#BA7517' },
-    { key: 'observer', x: 85, y: 262, label: 'OSSERVATORE', en: 'The Observer', color: '#6B6B65' },
-    { key: 'connector', x: 315, y: 262, label: 'CONNETTORE', en: 'The Connector', color: '#7F77DD' },
+    { key: 'pilot', x: 85, y: 82, label: 'PILOTA', en: 'The Pilot', color: '#ED7D31' },
+    { key: 'architect', x: 315, y: 82, label: 'ARCHITETTO', en: 'The Architect', color: '#926EAA' },
+    { key: 'adapter', x: 200, y: 172, label: 'PRAGMATICO', en: 'The Adapter', color: '#C8778E' },
+    { key: 'observer', x: 85, y: 262, label: 'OSSERVATORE', en: 'The Observer', color: '#A772A4' },
+    { key: 'connector', x: 315, y: 262, label: 'CONNETTORE', en: 'The Connector', color: '#E37B66' },
   ];
 
   let rects = '';
@@ -982,27 +865,22 @@ function buildChartSvg(topProfile) {
 
   return `
     <svg class="chart-svg" viewBox="0 0 580 410" xmlns="http://www.w3.org/2000/svg">
-      <!-- Quadrant bg -->
-      <rect x="60" y="30" width="230" height="170" fill="#FFF5EE" opacity="0.5" rx="4"/>
-      <rect x="290" y="30" width="230" height="170" fill="#E8F5F0" opacity="0.5" rx="4"/>
-      <rect x="60" y="200" width="230" height="170" fill="#F5F5F0" opacity="0.5" rx="4"/>
-      <rect x="290" y="200" width="230" height="170" fill="#F0EBF5" opacity="0.5" rx="4"/>
-      <!-- Axes -->
+      <rect x="60" y="30" width="230" height="170" fill="#FDF3EB" opacity="0.5" rx="4"/>
+      <rect x="290" y="30" width="230" height="170" fill="#F0ECF4" opacity="0.5" rx="4"/>
+      <rect x="60" y="200" width="230" height="170" fill="#F3ECF2" opacity="0.5" rx="4"/>
+      <rect x="290" y="200" width="230" height="170" fill="#FBEFEC" opacity="0.5" rx="4"/>
       <line x1="60" y1="370" x2="520" y2="370" stroke="#999" stroke-width="1"/>
       <line x1="60" y1="370" x2="60" y2="30" stroke="#999" stroke-width="1"/>
       <polygon points="520,370 512,366 512,374" fill="#999"/>
       <polygon points="60,30 56,38 64,38" fill="#999"/>
-      <!-- Dashed dividers -->
       <line x1="290" y1="30" x2="290" y2="370" stroke="#ccc" stroke-width="0.6" stroke-dasharray="5 3"/>
       <line x1="60" y1="200" x2="520" y2="200" stroke="#ccc" stroke-width="0.6" stroke-dasharray="5 3"/>
-      <!-- Axis labels -->
       <text x="290" y="395" text-anchor="middle" font-size="11" fill="#888" font-style="italic" font-family="DM Sans">Focus sul contributo</text>
       <text x="130" y="387" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" font-family="DM Sans">individuale</text>
       <text x="450" y="387" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" font-family="DM Sans">collettivo</text>
       <text x="28" y="200" text-anchor="middle" font-size="11" fill="#888" font-style="italic" font-family="DM Sans" transform="rotate(-90,28,200)">Orientamento</text>
       <text x="48" y="55" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" font-family="DM Sans">risultato</text>
       <text x="48" y="355" text-anchor="middle" font-size="9" fill="#aaa" font-style="italic" font-family="DM Sans">relazione</text>
-      <!-- Profile boxes -->
       ${rects}
     </svg>
   `;
@@ -1013,55 +891,31 @@ async function downloadPDF() {
   const btn = document.getElementById('btn-download');
   btn.disabled = true;
   btn.textContent = 'Generazione PDF in corso...';
-
   try {
     const { jsPDF } = window.jspdf;
     const pdf = new jsPDF('p', 'mm', 'a4');
-    const pageWidth = 210;
-    const pageHeight = 297;
-    const margin = 10;
+    const pageWidth = 210, pageHeight = 297, margin = 10;
     const contentWidth = pageWidth - (margin * 2);
+    const captureOpts = { scale: 2, useCORS: true, backgroundColor: '#FAFAF7', logging: false, windowWidth: 680 };
 
-    const captureOpts = {
-      scale: 2,
-      useCORS: true,
-      backgroundColor: '#FAFAF7',
-      logging: false,
-      windowWidth: 680,
-    };
-
-    // Capture page 1
     const page1 = document.getElementById('pdf-page1');
-    page1.style.padding = '20px';
-    page1.style.background = '#FAFAF7';
+    page1.style.padding = '20px'; page1.style.background = '#FAFAF7';
     const canvas1 = await html2canvas(page1, captureOpts);
-    page1.style.padding = '';
-    page1.style.background = '';
+    page1.style.padding = ''; page1.style.background = '';
+    pdf.addImage(canvas1.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, contentWidth, Math.min((canvas1.height / canvas1.width) * contentWidth, pageHeight - margin * 2));
 
-    const img1 = canvas1.toDataURL('image/jpeg', 0.92);
-    const h1 = (canvas1.height / canvas1.width) * contentWidth;
-    pdf.addImage(img1, 'JPEG', margin, margin, contentWidth, Math.min(h1, pageHeight - margin * 2));
-
-    // Capture page 2
     pdf.addPage();
     const page2 = document.getElementById('pdf-page2');
-    page2.style.padding = '20px';
-    page2.style.background = '#FAFAF7';
+    page2.style.padding = '20px'; page2.style.background = '#FAFAF7';
     const canvas2 = await html2canvas(page2, captureOpts);
-    page2.style.padding = '';
-    page2.style.background = '';
-
-    const img2 = canvas2.toDataURL('image/jpeg', 0.92);
-    const h2 = (canvas2.height / canvas2.width) * contentWidth;
-    pdf.addImage(img2, 'JPEG', margin, margin, contentWidth, Math.min(h2, pageHeight - margin * 2));
+    page2.style.padding = ''; page2.style.background = '';
+    pdf.addImage(canvas2.toDataURL('image/jpeg', 0.92), 'JPEG', margin, margin, contentWidth, Math.min((canvas2.height / canvas2.width) * contentWidth, pageHeight - margin * 2));
 
     pdf.save('il-mio-stile-di-collaborazione.pdf');
-
   } catch (err) {
     console.error('PDF generation error:', err);
     alert('Si è verificato un errore nella generazione del PDF. Riprova.');
   }
-
   btn.disabled = false;
   btn.textContent = '⬇ Scarica il tuo profilo (PDF)';
 }
@@ -1069,16 +923,17 @@ async function downloadPDF() {
 function restartQuiz() {
   answers = {};
   currentPage = 0;
-  // Reset UI
+  userPassword = "";
   document.querySelectorAll('.likert-btn').forEach(b => b.classList.remove('selected'));
   document.querySelectorAll('.question-block').forEach(b => b.classList.remove('answered'));
   document.querySelectorAll('.unanswered-warning').forEach(w => w.style.display = 'none');
-  goToPage(0);
+  document.getElementById('password-field').value = '';
+  document.getElementById('password-error').textContent = '';
+  goToPage('password');
 }
 
 // ─── INIT ───
 buildQuestionPages();
 </script>
-
 </body>
 </html>
